@@ -23,7 +23,7 @@ export default function About() {
             {/* Bio */}
             <div className="space-y-5 text- white/60 text-base leading-relaxed">
               <p>
-                I&apos;m a Senior Software Engineer with 5+ years of experience building
+                I&apos;m a Software Engineer with 5+ years of experience building
                 scalable web and mobile applications for startups, enterprises, and NGOs
                 across Africa and globally.
               </p>

@@ -35,7 +35,7 @@ export default function Hero() {
 
           {/* Subheading */}
           <p className="text-lg sm:text-xl text-foreground/60 leading-relaxed max-w-2xl mb-10">
-            Senior Software Engineer & Tech Consultant specializing in system
+            I&apos;m a Software Engineer & Tech Consultant specializing in system
             design, scalable architecture, and full-stack development. I help
             teams ship better products and engineers level up their careers.
           </p>
