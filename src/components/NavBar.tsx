@@ -69,7 +69,7 @@ export default function NavBar() {
                 // onClick={() => setHireModalOpen(true)}
                 className="hidden sm:inline-flex items-center justify-center px-5 py-2 bg-primary/20 border border-primary/30 text-foreground text-sm font-semibold hover:bg-primary hover:border-primary transition-all duration-300"
               >
-                <Link href="/courses">Courses</Link>
+                <Link href="/courses">Classes</Link>
               </button>
                <button
                 onClick={() => setHireModalOpen(true)}
