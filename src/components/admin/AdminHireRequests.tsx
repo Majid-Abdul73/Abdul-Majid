@@ -10,6 +10,7 @@ export interface HireRequest {
   id: string;
   name: string;
   email: string;
+  phone: string;
   service: string;
   budget: string;
   details: string;
@@ -40,6 +41,7 @@ export default function AdminHireRequests({ hireRequests, setHireRequests }: Adm
     const matchSearch =
       h.name.toLowerCase().includes(search.toLowerCase()) ||
       h.email.toLowerCase().includes(search.toLowerCase()) ||
+      h.phone.toLowerCase().includes(search.toLowerCase()) ||
       h.service.toLowerCase().includes(search.toLowerCase());
     const matchStatus = filterStatus === "all" || h.status === filterStatus;
     return matchSearch && matchStatus;
@@ -100,7 +102,7 @@ export default function AdminHireRequests({ hireRequests, setHireRequests }: Adm
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border">
-                {["Client", "Service", "Budget", "Date", "Status", ""].map((h) => (
+                {["Client", "Phone", "Service", "Budget", "Date", "Status", ""].map((h) => (
                   <th key={h} className="px-5 py-3.5 text-left text-[10px] font-bold uppercase tracking-widest text-foreground/30">
                     {h}
                   </th>
@@ -110,7 +112,7 @@ export default function AdminHireRequests({ hireRequests, setHireRequests }: Adm
             <tbody className="divide-y divide-white/[0.04]">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-16 text-center text-foreground/30">No requests found.</td>
+                  <td colSpan={7} className="py-16 text-center text-foreground/30">No requests found.</td>
                 </tr>
               ) : (
                 filtered.map((h) => (
@@ -124,6 +126,7 @@ export default function AdminHireRequests({ hireRequests, setHireRequests }: Adm
                         <p className="text-foreground font-semibold">{h.name}</p>
                         <p className="text-foreground/40 text-xs">{h.email}</p>
                       </td>
+                      <td className="px-5 py-4 text-foreground/60">{h.phone || "-"}</td>
                       <td className="px-5 py-4 text-foreground/60">{h.service}</td>
                       <td className="px-5 py-4 text-foreground/60 text-xs">{h.budget}</td>
                       <td className="px-5 py-4 text-foreground/40 text-xs whitespace-nowrap">
@@ -144,7 +147,13 @@ export default function AdminHireRequests({ hireRequests, setHireRequests }: Adm
 
                     {expanded === h.id && (
                       <tr className="bg-muted">
-                        <td colSpan={6} className="px-5 py-5">
+                        <td colSpan={7} className="px-5 py-5">
+                          {h.phone && (
+                            <div className="mb-5">
+                              <p className="text-foreground/30 text-xs uppercase tracking-wider mb-1">Phone</p>
+                              <p className="text-foreground/70 text-sm">{h.phone}</p>
+                            </div>
+                          )}
                           {h.details && (
                             <div className="mb-5">
                               <p className="text-foreground/30 text-xs uppercase tracking-wider mb-1">Project Details</p>

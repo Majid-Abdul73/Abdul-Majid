@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { X, Send, CheckCircle, ChevronDown } from "lucide-react";
+import { DbService } from "@/services/db.service";
 
 interface HireModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ export default function Hire({ isOpen, onClose }: HireModalProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     service: "",
     budget: "",
     details: "",
@@ -46,15 +48,20 @@ export default function Hire({ isOpen, onClose }: HireModalProps) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", email: "", service: "", budget: "", details: "" });
-      onClose();
-    }, 3000);
+    try {
+      await DbService.insert("hire_requests", formData);
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: "", email: "", phone: "", service: "", budget: "", details: "" });
+        onClose();
+      }, 3000);
+    } catch (error) {
+      console.error("Error submitting hire request:", error);
+      alert("Failed to submit request. Please try again.");
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -82,7 +89,7 @@ export default function Hire({ isOpen, onClose }: HireModalProps) {
         </button>
 
         <div className="mb-8">
-          <h2 className="text-3xl font-extrabold text-foreground mb-2">Let&apos;s Work Together</h2>
+          <h2 className="text-3xl font-extrabold text-foreground mb-2">Hire Me</h2>
           <p className="text-foreground/50 text-sm">Fill out the form below to discuss your project.</p>
         </div>
 
@@ -129,6 +136,21 @@ export default function Hire({ isOpen, onClose }: HireModalProps) {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="john@example.com"
+                  className="w-full px-4 py-3 bg-secondary border border-border text-foreground placeholder-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium text-foreground/70 mb-1.5">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="+233 20 123 4567"
                   className="w-full px-4 py-3 bg-secondary border border-border text-foreground placeholder-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                 />
               </div>

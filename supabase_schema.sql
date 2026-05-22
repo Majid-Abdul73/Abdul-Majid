@@ -39,12 +39,24 @@ CREATE TABLE IF NOT EXISTS public.hire_requests (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     email TEXT NOT NULL,
+    phone TEXT,
     service TEXT,
     budget TEXT,
     details TEXT,
     status TEXT DEFAULT 'new',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+-- Add phone column if it doesn't exist (for existing tables)
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'hire_requests' AND column_name = 'phone'
+    ) THEN
+        ALTER TABLE public.hire_requests ADD COLUMN phone TEXT;
+    END IF;
+END $$;
 
 -- Allow anyone to insert, but only authenticated users can read/update/delete
 ALTER TABLE public.hire_requests ENABLE ROW LEVEL SECURITY;
