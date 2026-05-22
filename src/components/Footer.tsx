@@ -56,7 +56,7 @@ export default function Footer() {
               <span className="text-primary font-bold uppercase tracking-widest text-xs">Explore</span>
               <Link href="/projects" className="text-foreground/70 hover:text-primary transition-colors font-medium">Projects</Link>
               <Link href="/services" className="text-foreground/70 hover:text-primary transition-colors font-medium">Services</Link>
-              <Link href="/courses" className="text-foreground/70 hover:text-primary transition-colors font-medium">Courses</Link>
+              <Link href="/courses" className="text-foreground/70 hover:text-primary transition-colors font-medium">Classes</Link>
               <Link href="/blog" className="text-foreground/70 hover:text-primary transition-colors font-medium">Writing</Link>
             </div>
 

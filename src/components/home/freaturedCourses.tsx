@@ -41,7 +41,7 @@ export default function FeaturedCourses() {
         const available = data.filter((c) => c.status === "Available").slice(0, 3);
         setCourses(available.length > 0 ? available : data.slice(0, 3));
       } catch (err) {
-        console.error("Failed to fetch courses:", err);
+        console.error("Failed to fetch classes:", err);
       } finally {
         setLoading(false);
       }
@@ -64,7 +64,7 @@ export default function FeaturedCourses() {
               Education
             </span>
             <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold text-foreground">
-              Featured Courses
+              Featured Classes
             </h2>
             <p className="mt-4 text-foreground/50 text-lg">
               Structured programs designed to accelerate your career, whether you&apos;re starting out or mastering advanced architecture.
@@ -74,7 +74,7 @@ export default function FeaturedCourses() {
             href="/courses"
             className="inline-flex items-center gap-2 px-6 py-3 bg-secondary border border-border text-foreground font-semibold hover:border-primary/50 hover:bg-primary/5 transition-all w-fit"
           >
-            View All Courses <ArrowRight size={16} />
+            View All clases <ArrowRight size={16} />
           </Link>
         </div>
 
@@ -84,7 +84,7 @@ export default function FeaturedCourses() {
           </div>
         ) : courses.length === 0 ? (
           <div className="text-center py-20 text-foreground/30">
-            <p className="text-sm">No courses available yet. Check back soon!</p>
+            <p className="text-sm">No class available yet. Check back soon!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
