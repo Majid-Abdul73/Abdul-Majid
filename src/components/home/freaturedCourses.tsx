@@ -5,10 +5,6 @@ import { useEffect, useState, useRef } from "react";
 import { ArrowRight, Bot, Layout, Server, Code2, Smartphone, Box, Target, Loader2 } from "lucide-react";
 import { DbService } from "@/services/db.service";
 import EnrollModal from "@/components/EnrollModal";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface Course {
   id: string;
@@ -36,9 +32,6 @@ export default function FeaturedCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const coursesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -58,40 +51,8 @@ export default function FeaturedCourses() {
     fetchCourses();
   }, []);
 
-  useEffect(() => {
-    if (!loading && courses.length > 0) {
-      const ctx = gsap.context(() => {
-        gsap.from(headerRef.current, {
-          opacity: 0,
-          y: 30,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 80%",
-          },
-        });
-
-        gsap.from(coursesRef.current?.children || [], {
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: coursesRef.current,
-            start: "top 80%",
-          },
-        });
-      }, sectionRef);
-
-      return () => ctx.revert();
-    }
-  }, [loading, courses]);
-
   return (
     <section
-      ref={sectionRef}
       className="py-12 border-t border-border relative bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: 'url("/bg/bg5.jpeg")' }}
     >
@@ -99,7 +60,7 @@ export default function FeaturedCourses() {
       <div className="absolute inset-0 bg-background/85 backdrop-blur-[2px] z-0" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div className="max-w-2xl">
             <span className="text-primary text-sm font-bold uppercase tracking-widest">
               Education
@@ -128,7 +89,7 @@ export default function FeaturedCourses() {
             <p className="text-sm">No class available yet. Check back soon!</p>
           </div>
         ) : (
-          <div ref={coursesRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {courses.map((course) => {
               const Icon = getIcon(course.title);
               const isAvailable = course.status === "Available";

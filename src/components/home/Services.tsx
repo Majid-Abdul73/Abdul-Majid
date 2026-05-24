@@ -26,7 +26,7 @@ const servicesLeft = [
 const servicesRight = [
   {
     icon: GraduationCap,
-    title: "Classes & Training",
+    title: "Online Classes",
     description: "Structured learning programs for all levels — from coding & robotics for kids to professional frontend, backend, and fullstack development.",
     tags: ["Coding for Kids", "Frontend Dev", "Backend Dev"],
   },

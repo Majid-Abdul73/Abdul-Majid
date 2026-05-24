@@ -8,8 +8,8 @@ import Hire from "./home/Hire";
 
 const navLinks = [
   { href: "/", label: "About"},
-  { href: "/services", label: "Services" },
-  { href: "/projects", label: "Projects" },
+  { href: "/", label: "Services" },
+  { href: "/", label: "Projects" },
   { href: "/courses", label: "Classes" },
   { href: "/contact", label: "Contact" },
 ];

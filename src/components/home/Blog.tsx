@@ -3,10 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Tag, Clock, BookOpen, X, ChevronRight } from "lucide-react";
 import { DbService } from "@/services/db.service";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type BlogPost = {
   id: string;
@@ -103,9 +99,6 @@ export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const postsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -125,43 +118,12 @@ export default function Blog() {
     fetchPosts();
   }, []);
 
-  useEffect(() => {
-    if (!loading && posts.length > 0) {
-      const ctx = gsap.context(() => {
-        gsap.from(headerRef.current, {
-          opacity: 0,
-          y: 30,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 80%",
-          },
-        });
-
-        gsap.from(postsRef.current?.children || [], {
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: postsRef.current,
-            start: "top 80%",
-          },
-        });
-      }, sectionRef);
-
-      return () => ctx.revert();
-    }
-  }, [loading, posts]);
-
   return (
     <>
-      <section id="blog" ref={sectionRef} className="py-24 lg:py-32 bg-background">
+      <section id="blog" className="py-24 lg:py-32 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div ref={headerRef} className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-16 gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-16 gap-4">
             <div>
               <span className="text-primary text-sm font-semibold uppercase tracking-widest">
                 Writing
@@ -199,7 +161,7 @@ export default function Blog() {
           )}
 
           {!loading && !error && posts.length > 0 && (
-            <div ref={postsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
                 <button
                   key={post.id}
