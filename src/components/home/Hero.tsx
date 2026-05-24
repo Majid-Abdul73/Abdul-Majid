@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/Icons";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 const socialLinks = [
   { icon: GithubIcon, href: "https://github.com/Majid-Abdul73", label: "GitHub" },
@@ -11,9 +12,53 @@ const socialLinks = [
 ];
 
 export default function Hero() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subheadingRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const socialRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(headingRef.current, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      gsap.from(subheadingRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        delay: 0.3,
+        ease: "power3.out",
+      });
+
+      gsap.from(buttonsRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        delay: 0.5,
+        ease: "power3.out",
+      });
+
+      gsap.from(socialRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 1,
+        delay: 0.7,
+        ease: "power3.out",
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       id="home"
+      ref={heroRef}
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{
         backgroundImage: "url('/bg/hero.svg')",
@@ -25,7 +70,10 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 flex flex-col items-center">
         <div className="max-w-4xl flex flex-col items-center text-center">
           {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-6">
+          <h1
+            ref={headingRef}
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground leading-tight tracking-tight mb-6"
+          >
             Building <span className="text-emerald-500">Scalable</span>
             <br />
             Software & <span className="text-emerald-500">Empowering</span>
@@ -34,14 +82,20 @@ export default function Hero() {
           </h1>
 
           {/* Subheading */}
-          <p className="text-lg sm:text-xl text-foreground/60 leading-relaxed max-w-2xl mb-10">
-            I&apos;m a Software Engineer & Tech Consultant specializing in system
-            design, scalable architecture, and full-stack development. I help
-            teams ship better products and engineers level up their careers.
+          <p
+            ref={subheadingRef}
+            className="text-lg sm:text-xl text-foreground/60 leading-relaxed max-w-2xl mb-10"
+          >
+            Code is my language, but impact is my purpose. I build systems that
+            scale and teams that grow. Every line I write is a step toward something
+            bigger.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center items-center gap-4 mb-14">
+          <div
+            ref={buttonsRef}
+            className="flex flex-wrap justify-center items-center gap-4 mb-14"
+          >
             <a
               href="https://cal.com/abdulmajid"
               target="_blank"
@@ -66,7 +120,10 @@ export default function Hero() {
           </div>
 
           {/* Social Links */}
-          <div className="flex items-center justify-center gap-4">
+          <div
+            ref={socialRef}
+            className="flex items-center justify-center gap-4"
+          >
             <span className="text-foreground/30 text-sm">Connect:</span>
             {socialLinks.map(({ icon: Icon, href, label }) => (
               <a

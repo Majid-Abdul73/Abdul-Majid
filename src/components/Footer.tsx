@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
-import { GithubIcon, LinkedinIcon, TwitterIcon, YoutubeIcon } from "./Icons";
+import { GithubIcon, LinkedinIcon, TwitterIcon, YoutubeIcon, TiktokIcon } from "./Icons";
 import { useState } from "react";
 
 const socials = [
-  { icon: GithubIcon, href: "https://github.com", label: "GitHub" },
-  { icon: LinkedinIcon, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: TwitterIcon, href: "https://twitter.com", label: "Twitter" },
-  { icon: YoutubeIcon, href: "https://youtube.com", label: "YouTube" },
+  { icon: GithubIcon, href: "https://github.com/Majid-Abdul73", label: "GitHub" },
+  { icon: LinkedinIcon, href: "https://www.linkedin.com/in/abdul-majid-amadu-691134207/", label: "LinkedIn" },
+  { icon: TwitterIcon, href: "https://twitter.com/", label: "Twitter" },
+  { icon: YoutubeIcon, href: "https://www.youtube.com/@ElonOcean", label: "YouTube" },
+  { icon: TiktokIcon, href: "https://www.tiktok.com/@elonjnr5", label: "TikTok" },
 ];
 
 export default function Footer() {

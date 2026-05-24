@@ -7,7 +7,7 @@ import { GithubIcon, LinkedinIcon } from "./Icons";
 import Hire from "./home/Hire";
 
 const navLinks = [
-  { href: "/about", label: "About"},
+  { href: "/", label: "About"},
   { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
   { href: "/courses", label: "Classes" },

@@ -1,10 +1,14 @@
 "use client";
 
-import NavBar from "@/components/NavBar";
+// import NavBar from "@/components/NavBar";
 import { Code2, Server, Layout, Bot, Box, ArrowRight, Smartphone, Target, X, Send, CheckCircle, ChevronDown, Loader2, } from "lucide-react";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { DbService } from "@/services/db.service";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -262,6 +266,11 @@ export default function CoursesPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
   const [enrollCourse, setEnrollCourse] = useState<DbCourse | null>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLDivElement>(null);
+  const filtersRef = useRef<HTMLDivElement>(null);
+  const coursesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -279,6 +288,58 @@ export default function CoursesPage() {
     fetchCourses();
   }, []);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(heroTextRef.current, {
+        opacity: 0,
+        x: -50,
+        duration: 1,
+        ease: "power3.out",
+      });
+
+      gsap.from(heroImageRef.current, {
+        opacity: 0,
+        x: 50,
+        duration: 1,
+        delay: 0.3,
+        ease: "power3.out",
+      });
+
+      gsap.from(filtersRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: filtersRef.current,
+          start: "top 80%",
+        },
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    if (!loading && courses.length > 0) {
+      const ctx = gsap.context(() => {
+        gsap.from(coursesRef.current?.children || [], {
+          opacity: 0,
+          y: 30,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: coursesRef.current,
+            start: "top 80%",
+          },
+        });
+      }, coursesRef);
+
+      return () => ctx.revert();
+    }
+  }, [loading, courses]);
+
   const filteredCourses = courses.filter((course) => {
     if (filter === "All") return true;
     if (course.level === "All Levels") return true;
@@ -292,14 +353,14 @@ export default function CoursesPage() {
 
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
 
       <main className="min-h-screen bg-background pb-24">
 
         {/* Hero Banner */}
-        <div className="w-full min-h-[40vh] flex items-center justify-center border-b border-border py-20 lg:py-28">
+        <div ref={heroRef} className="w-full min-h-[40vh] flex items-center justify-center border-b border-border py-20 lg:py-28">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-            <div className="flex-1 text-left mt-16 lg:mt-0">
+            <div ref={heroTextRef} className="flex-1 text-left mt-16 lg:mt-0">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-6 leading-tight">
                 Level Up Your <span className="text-primary">Skills</span>
               </h1>
@@ -307,7 +368,7 @@ export default function CoursesPage() {
                 Whether you are just starting out or mastering advanced system architecture, we have a structured program designed to accelerate your career.
               </p>
             </div>
-            <div className="flex-1 w-full relative aspect-square lg:aspect-[4/3] max-w-lg mx-auto overflow-hidden border border-border shadow-2xl shadow-primary/10 lg:ml-auto">
+            <div ref={heroImageRef} className="flex-1 w-full relative aspect-square lg:aspect-[4/3] max-w-lg mx-auto overflow-hidden border border-border shadow-2xl shadow-primary/10 lg:ml-auto">
               <Image
                 src="/img/img1.jpg"
                 alt="Courses and Training"
@@ -323,7 +384,7 @@ export default function CoursesPage() {
           <div className="flex flex-col gap-8 lg:gap-12">
 
             {/* Filters */}
-            <div className="w-full">
+            <div ref={filtersRef} className="w-full">
               <div className="flex flex-col sm:flex-row items-start justify-start gap-4 pb-6 border-b border-border">
                 <div className="flex flex-row gap-3 overflow-x-auto hide-scrollbar w-full pb-2 sm:pb-0">
                   {availableFilters.map((cat) => (
@@ -353,7 +414,7 @@ export default function CoursesPage() {
                 <p className="text-sm">No courses found. Check back soon!</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+              <div ref={coursesRef} className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                 {filteredCourses.map((course) => {
                   const Icon = getIcon(course.title);
                   const isAvailable = course.status === "Available";

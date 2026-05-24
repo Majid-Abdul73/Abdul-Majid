@@ -58,9 +58,13 @@ export default function Hire({ isOpen, onClose }: HireModalProps) {
         setFormData({ name: "", email: "", phone: "", service: "", budget: "", details: "" });
         onClose();
       }, 3000);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting hire request:", error);
-      alert("Failed to submit request. Please try again.");
+      console.error("Error details:", JSON.stringify(error, null, 2));
+      console.error("Error type:", typeof error);
+      console.error("Error keys:", Object.keys(error));
+      const errorMessage = error?.message || error?.error_description || "Failed to submit request. Please try again.";
+      alert(errorMessage);
     }
   };
 
